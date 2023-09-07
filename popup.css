@@ -1,0 +1,5 @@
+.popup-container {
+  width: 300px;
+  height: 200px;
+  overflow: auto;
+}

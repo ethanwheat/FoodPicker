@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "FoodPicker Extension",
+    "version": "1.0",
+    "description": "A Chrome extension for searching for Food.",
+    "permissions": [
+        "activeTab",
+        "http://localhost:3000/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    }
+}
+
