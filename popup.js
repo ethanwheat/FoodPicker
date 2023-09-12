@@ -2,9 +2,29 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchButton = document.getElementById('searchButton');
     const newSearchButton = document.getElementById('startNewSearch');
     const locationInput = document.getElementById('location');
-    const priceInput = document.getElementById('price');
     const resultsDiv = document.getElementById('results');
     const searchMenuDiv = document.getElementById('search-menu');
+    const priceLevels = document.querySelectorAll('.price-level');
+
+    // price selection
+    let price = 0;
+    
+    // Add click event listeners to each price level
+    priceLevels.forEach((level, index) => {
+        level.addEventListener('click', () => {
+            // Update the selected range value (1 to 4)
+            price = index + 1;
+
+            // Update the color of price levels based on selected value
+            priceLevels.forEach((el, idx) => {
+                if (idx < price) {
+                    el.classList.add('selected');
+                } else {
+                    el.classList.remove('selected');
+                }
+            });
+        });
+    });
 
     // range slider
     const rangeSlider = document.getElementById('range-slider');  
@@ -19,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     searchButton.addEventListener('click', function () {
         const location = locationInput.value;
-        const price = priceInput.value;
         let range = rangeSlider.value;
         if (range > 24) {
           range = 40000;
