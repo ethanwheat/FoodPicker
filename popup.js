@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const resultsDiv = document.getElementById('results');
     const searchMenuDiv = document.getElementById('search-menu');
     const priceLevels = document.querySelectorAll('.price-level');
-
+    const loadingWheel = document.getElementById('loading-div');
+ 
     // price selection
     let price = 0;
     
@@ -46,13 +47,16 @@ document.addEventListener('DOMContentLoaded', function () {
           range = range * 1609;
         }
         searchMenuDiv.style.display = 'none';
-        resultsDiv.style.display = 'block';
+        newSearchButton.style.display = 'block';
+        loadingWheel.style.display = 'block';  // display loading wheel when search initiated
+
         // Send a message to the background script to initiate the search
         chrome.runtime.sendMessage({ action: 'searchForFood', location, price, range }, (response) => {
+            resultsDiv.style.display = 'block';     
+            loadingWheel.style.display = 'none';  // hide loading wheel when response received
             if (!response.error) {
                 displayRandom(response);
             } else {
-                newSearchButton.style.display = 'block';
                 resultsDiv.innerHTML = 'An error occurred while fetching data.';
             }
         }); 
@@ -76,8 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             resultsDiv.innerHTML += '<p>No results found.</p>';
         }
-
-        newSearchButton.style.display = 'block';
     }
   
 
@@ -96,7 +98,5 @@ document.addEventListener('DOMContentLoaded', function () {
             // No results found
             resultsDiv.innerHTML = '<h2>No results found.</h2>';
         }
-
-        newSearchButton.style.display = 'block';
     }
 });
