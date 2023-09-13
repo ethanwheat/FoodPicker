@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchMenuDiv = document.getElementById('search-menu');
     const priceLevels = document.querySelectorAll('.price-level');
     const loadingWheel = document.getElementById('loading-div');
+    const rerollButton = document.getElementById('reroll');
  
     // price selection
     let price = 0;
@@ -29,15 +30,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // range slider
     const rangeSlider = document.getElementById('range-slider');  
-    const currentRangeDisplay = document.getElementById('currentRange');
+    const currentRangeDisplay = document.getElementById('current-range');
 
     rangeSlider.addEventListener('input', function() {
         const currentRange = parseInt(rangeSlider.value);
         currentRangeDisplay.textContent = currentRange;
     });
     
-    currentRangeDisplay.textContent = rangeSlider.value;
-
     searchButton.addEventListener('click', function () {
         const location = locationInput.value;
         let range = rangeSlider.value;
@@ -66,8 +65,15 @@ document.addEventListener('DOMContentLoaded', function () {
         // Clear the results and show the search menu again
         resultsDiv.style.display = 'none';
         newSearchButton.style.display = 'none';
+        rerollButton.style.display = 'none';
         searchMenuDiv.style.display = 'block';
     });
+
+    rerollButton.addEventListener('click', function () {
+        resultsDiv.style.display = 'none';
+        rerollButton.style.display = 'none';
+        searchButton.click(); 
+    }); 
 
     function displayResults(data) {
         // Display the API results in the popup
@@ -94,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
             resultsDiv.innerHTML = '<h2>Random Business:</h2>';
             resultsDiv.innerHTML += `<p>${randomBusiness.name}</p>`;
             resultsDiv.innerHTML += `<p>Address: ${randomBusiness.location.display_address.join(', ')}</p>`;
+            rerollButton.style.display = 'block'; 
         } else {
             // No results found
             resultsDiv.innerHTML = '<h2>No results found.</h2>';
