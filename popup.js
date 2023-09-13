@@ -100,6 +100,14 @@ document.addEventListener('DOMContentLoaded', function () {
             resultsDiv.innerHTML = '<h2>Random Business:</h2>';
             resultsDiv.innerHTML += `<p>${randomBusiness.name}</p>`;
             resultsDiv.innerHTML += `<p>Address: ${randomBusiness.location.display_address.join(', ')}</p>`;
+            resultsDiv.innerHTML += `<p>Rating: ${randomBusiness.rating}</p>`;
+            resultsDiv.innerHTML += `<p>Phone Number: ${randomBusiness.display_phone}</p>`;
+            resultsDiv.innerHTML += `<a href="${randomBusiness.url}" target="_blank">Website</a>`;
+            if (randomBusiness.is_closed) {
+                resultsDiv.innerHTML += '<p style="color: red;">Currently Closed</p>';
+            } else {
+                resultsDiv.innerHTML += '<p style="color: green;">Currently Open</p>';
+            }
             rerollButton.style.display = 'block'; 
         } else {
             // No results found
