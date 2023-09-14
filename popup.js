@@ -66,6 +66,13 @@ document.addEventListener('DOMContentLoaded', function () {
         resultsDiv.style.display = 'none';
         newSearchButton.style.display = 'none';
         rerollButton.style.display = 'none';
+        price = 0;  // reset price
+        priceLevels.forEach((el, idx) => {
+            el.classList.remove('selected');  // remove selected dollar signs
+        });
+        rangeSlider.value = 5;
+        currentRangeDisplay.textContent = 5;
+        locationInput.value = ''; 
         searchMenuDiv.style.display = 'block';
     });
 
