@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const priceLevels = document.querySelectorAll('.price-level');
     const loadingWheel = document.getElementById('loading-div');
     const rerollButton = document.getElementById('reroll');
+    const typeOptions = document.getElementById('type-options');
  
     // price selection
     let price = 0;
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     searchButton.addEventListener('click', function () {
         const location = locationInput.value;
+        const type = typeOptions.value;
         let range = rangeSlider.value;
         if (range > 24) {
           range = 40000;
@@ -50,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingWheel.style.display = 'block';  // display loading wheel when search initiated
 
         // Send a message to the background script to initiate the search
-        chrome.runtime.sendMessage({ action: 'searchForFood', location, price, range }, (response) => {
+        chrome.runtime.sendMessage({ action: 'searchForFood', location, type, price, range }, (response) => {
             resultsDiv.style.display = 'block';     
             loadingWheel.style.display = 'none';  // hide loading wheel when response received
             if (!response.error) {
@@ -66,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
         resultsDiv.style.display = 'none';
         newSearchButton.style.display = 'none';
         rerollButton.style.display = 'none';
+        loadingWheel.style.display = 'none';
         price = 0;  // reset price
         priceLevels.forEach((el, idx) => {
             el.classList.remove('selected');  // remove selected dollar signs
