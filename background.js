@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 function searchForFood(location, type, price, range, callback) {
-    let apiUrl = `http://localhost:3000/?location=${location}&type=${type}`;
+    let apiUrl = `http://ENDPOINT-HERE/?location=${location}&type=${type}`;
     
     if (price) {
       apiUrl += `&price=${price}`;
