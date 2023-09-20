@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const searchButton = document.getElementById('searchButton');
+    const searchButton = document.getElementById('search-button');
     const newSearchButton = document.getElementById('startNewSearch');
+    const clearFiltersButton = document.getElementById('clear-filters');
     const locationInput = document.getElementById('location');
     const resultsDiv = document.getElementById('results');
+    const resultsTitleDiv = document.getElementById('title-div');
     const searchMenuDiv = document.getElementById('search-menu');
+    const resultsMenuDiv = document.getElementById('results-menu');
     const priceLevels = document.querySelectorAll('.price-level');
     const loadingWheel = document.getElementById('loading-div');
     const rerollButton = document.getElementById('reroll');
@@ -48,12 +51,14 @@ document.addEventListener('DOMContentLoaded', function () {
           range = range * 1609;
         }
         searchMenuDiv.style.display = 'none';
+        resultsMenuDiv.style.display = 'flex';
         newSearchButton.style.display = 'block';
         loadingWheel.style.display = 'block';  // display loading wheel when search initiated
 
         // Send a message to the background script to initiate the search
         chrome.runtime.sendMessage({ action: 'searchForFood', location, type, price, range }, (response) => {
-            resultsDiv.style.display = 'block';     
+            resultsTitleDiv.style.display = 'flex';
+            resultsDiv.style.display = 'flex';     
             loadingWheel.style.display = 'none';  // hide loading wheel when response received
             if (!response.error) {
                 displayRandom(response);
@@ -62,42 +67,34 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }); 
     });
-
-    newSearchButton.addEventListener('click', function () {
-        // Clear the results and show the search menu again
-        resultsDiv.style.display = 'none';
-        newSearchButton.style.display = 'none';
-        rerollButton.style.display = 'none';
-        loadingWheel.style.display = 'none';
+    
+    clearFiltersButton.addEventListener('click', function() {
+        typeOptions.selectedIndex = 0;
         price = 0;  // reset price
         priceLevels.forEach((el, idx) => {
             el.classList.remove('selected');  // remove selected dollar signs
         });
         rangeSlider.value = 5;
         currentRangeDisplay.textContent = 5;
-        locationInput.value = ''; 
-        searchMenuDiv.style.display = 'block';
+    });
+
+    newSearchButton.addEventListener('click', function () {
+        // Clear the results and show the search menu again
+        resultsMenuDiv.style.display = 'none';
+        resultsTitleDiv.style.display = 'none';
+        resultsDiv.style.display = 'none';
+        newSearchButton.style.display = 'none';
+        rerollButton.style.display = 'none';
+        loadingWheel.style.display = 'none';
+        searchMenuDiv.style.display = 'flex';
     });
 
     rerollButton.addEventListener('click', function () {
+          resultsTitleDiv.style.display = 'none';
         resultsDiv.style.display = 'none';
         rerollButton.style.display = 'none';
         searchButton.click(); 
     }); 
-
-    function displayResults(data) {
-        // Display the API results in the popup
-        resultsDiv.innerHTML = '<h2>Search Results:</h2>';
-        if (data.businesses && data.businesses.length > 0) {
-            data.businesses.forEach((business) => {
-                const businessName = business.name;
-                resultsDiv.innerHTML += `<p>${businessName}</p>`;
-            });
-        } else {
-            resultsDiv.innerHTML += '<p>No results found.</p>';
-        }
-    }
-  
 
     function displayRandom(data) { 
         // Check if there are businesses in the data
@@ -107,16 +104,20 @@ document.addEventListener('DOMContentLoaded', function () {
             // Get the randomly selected business
             const randomBusiness = data.businesses[randomIndex];
             // Display the selected business data
-            resultsDiv.innerHTML = '<h2>Random Business:</h2>';
-            resultsDiv.innerHTML += `<p>${randomBusiness.name}</p>`;
-            resultsDiv.innerHTML += `<p>Address: ${randomBusiness.location.display_address.join(', ')}</p>`;
-            resultsDiv.innerHTML += `<p>Rating: ${randomBusiness.rating}</p>`;
-            resultsDiv.innerHTML += `<p>Phone Number: ${randomBusiness.display_phone}</p>`;
-            resultsDiv.innerHTML += `<a href="${randomBusiness.url}" target="_blank">Website</a>`;
+            resultsTitleDiv.innerHTML = '<h2><span>Random Restaurant:</span></h2>';
+            resultsTitleDiv.innerHTML += `<h3>${randomBusiness.name}</h3>`;
+            resultsDiv.innerHTML = `<label class="label color-2">Address</label>`;
+            resultsDiv.innerHTML += `<p>${randomBusiness.location.display_address.join(', ')}</p>`;
+            resultsDiv.innerHTML += `<label class="label color-4">Rating</label>`;
+            resultsDiv.innerHTML += `<p>${randomBusiness.rating}</p>`;
+            resultsDiv.innerHTML += `<label class="label color-3">Phone Number</label>`;
+            resultsDiv.innerHTML += `<p>${randomBusiness.display_phone}</p>`;
+            resultsDiv.innerHTML += `<label class="label color-1">Website</label>`;
+            resultsDiv.innerHTML += `<a href="${randomBusiness.url}" target="_blank">Click Me!</a>`;
             if (randomBusiness.is_closed) {
-                resultsDiv.innerHTML += '<p style="color: red;">Currently Closed</p>';
+                resultsDiv.innerHTML += '<label class="label" style="color: red;">Currently Closed</label>';
             } else {
-                resultsDiv.innerHTML += '<p style="color: green;">Currently Open</p>';
+                resultsDiv.innerHTML += '<label class="label" style="color: green;">Currently Open</label>';
             }
             rerollButton.style.display = 'block'; 
         } else {

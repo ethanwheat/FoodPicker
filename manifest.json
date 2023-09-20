@@ -1,8 +1,14 @@
 {
     "manifest_version": 3,
-    "name": "FoodPicker Extension",
+    "name": "Grub Gambler",
     "version": "1.0",
-    "description": "A Chrome extension for searching for Food.",
+    "description": "A Chrome extension for randomly picking a restaurant",
+    "icons" :{
+        "128": "assets/128.png",
+        "48": "assets/48.png",
+        "32": "assets/32.png",
+        "16": "assets/16.png"
+    },
     "permissions": [
         "activeTab",
         "http://localhost:3000/*"

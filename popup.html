@@ -7,48 +7,70 @@
 </head>
 <body>
     <div class="popup-container">
-      <div id="search-menu">
-        <h1>Search for Food</h1>
-        <input type="text" id="location" placeholder="Enter location">
-        <select id="type-options">
-          <option value="Restaurant">Any</option>
-          <option value="Fast Food">Fast Food</option>
-          <option value="Breakfast Restaurant">Breakfast</option>
-          <option value="Buffet Restaurant">Buffet</option>
-          <option value="Pizza Restaurant">Pizza</option>
-          <option value="Seafood Restaurant">Seafood</option>
-          <option value="American Restaurant">American</option>
-          <option value="Mexican Restaurant">Mexican</option>
-          <option value="Chinese Restaurant">Chinese</option>
-          <option value="Italian Restaurant">Italian</option>
-          <option value="Indian Restaurant">Indian</option>
-          <option value="Mediterranean Restaurant">Mediterranean</option>
-          <option value="Greek Restaurant">Greek</option>
-          <option value="Coffee Shop">Coffee</option>
-          <option value="Dessert Restaurant">Dessert</option>
-        </select>
-        <div class="price-range">
-          <div class="price-level" id="level1"> $</div>
-          <div class="price-level" id="level2"> $</div>
-          <div class="price-level" id="level3"> $</div>
-          <div class="price-level" id="level4"> $</div>
+      <div id="search-menu" class="search-card shadow">
+        <img src="assets/GrubGambler.png" alt="Logo"> 
+        <div class="input-group">
+          <label class="label color-1">Location</label>
+          <input autocomplete="off" id="location" class="input input-1 border-1" placeholder="City, State, or Zip">
         </div>
-        <!-- range slider -->
-        <input type="range" id="range-slider" min="1" max="25" value="5" step="1">
-        <p>Current Range (Miles): <span id="current-range">5</span></p>
-        <!-- end of range slider -->
-        <button id="searchButton">Search</button>
+        <h2><span>Optional Filters</span></h2>
+        <div class="input-group">
+          <label class="label color-2">Type of Food</label>
+          <select id="type-options" class="input input-2 border-2">
+            <option value="Restaurant">Any</option>
+            <option value="Fast Food">Fast Food</option>
+            <option value="Breakfast Restaurant">Breakfast</option>
+            <option value="Buffet Restaurant">Buffet</option>
+            <option value="Pizza Restaurant">Pizza</option>
+            <option value="Seafood Restaurant">Seafood</option>
+            <option value="American Restaurant">American</option>
+            <option value="Mexican Restaurant">Mexican</option>
+            <option value="Chinese Restaurant">Chinese</option>
+            <option value="Italian Restaurant">Italian</option>
+            <option value="Indian Restaurant">Indian</option>
+            <option value="Mediterranean Restaurant">Mediterranean</option>
+            <option value="Greek Restaurant">Greek</option>
+            <option value="Coffee Shop">Coffee</option>
+            <option value="Dessert Restaurant">Dessert</option>
+          </select>
+        </div>
+        <!-- price level selector -->
+        <div class="range-container">
+          <div class="input-group">
+            <label class="label color-3">Price</label>
+            <div class="price-range">
+              <div class="price-level" id="level1"> $</div>
+              <div class="price-level" id="level2"> $</div>
+              <div class="price-level" id="level3"> $</div>
+              <div class="price-level" id="level4"> $</div>
+            </div>
+          </div>
+          <div class="vertical-div"></div>  
+          <!-- range slider -->
+          <div class="input-group">
+            <label class="label color-4">Range: <span id="current-range">5</span> Miles</label>
+            <input type="range" id="range-slider" min="1" max="25" value="5" step="1">
+          </div>
+          <!-- end of range slider -->
+        </div>
+        <button id="clear-filters" class="clear-button">Clear Filters</button>
+        <h2></h2> <!-- Divider -->
+        <button id="search-button" class="search-button">Search</button>
       </div> 
-      <!-- new search button -->
-      <button id="startNewSearch" style="display: none;">Start New Search</button> 
-      <!-- loading wheel -->
-      <div id="loading-div" style="display: none;">
-        <div class="loading-wheel"></div>
+
+      <div id="results-menu" class="search-card shadow" style="display: none;">
+        <!-- new search button -->
+        <button id="startNewSearch" class="clear-button" style="display: none;">Start New Search</button> 
+        <!-- loading wheel -->
+        <div id="loading-div" style="display: none;">
+          <div class="loading-wheel"></div>
+        </div>
+        <div id="title-div" class="centered" style="display: none;"></div>
+        <div id="results" class="results" style="display: none;">
+          <!-- Results content will be displayed here -->
+        </div>
+        <button id="reroll" class="search-button" style="display: none;">Re-Roll</button>
       </div>
-      <div id="results" style="display: none;">
-        <!-- Results content will be displayed here -->
-      </div>
-      <button id="reroll" style="display: none;">Re-Roll</button>
     </div>
 </body>
 </html>
